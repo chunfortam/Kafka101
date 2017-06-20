@@ -8,11 +8,12 @@ import scala.util.Random
 object ChunFileReader {
   def main(args: Array[String])={
 
-    val logFile = "D:\\IdeaProjects\\text\\src\\main\\resources\\omniture-logs.tsv"
+    val logFile = "omniture-logs.tsv"
     //val products = "D:\\IdeaProjects\\text\\src\\main\\resources\\products.tsv"
    // val users = "D:\\IdeaProjects\\text\\src\\main\\resources\\users.tsv"
 
-    val logFileSource = Source.fromFile(logFile).getLines().toList
+    val logFileSource = Source.fromInputStream(getClass.getResourceAsStream(logFile)).getLines().toList
+    //val logFileSource = Source.fromFile(logFile).getLines().toList
     val fileSize = logFileSource.size
 
 
@@ -38,9 +39,7 @@ object ChunFileReader {
      // println(lineList(columnNumber))
       //println(replacementLineList(columnNumber))
       //println(newLine(columnNumber))
-
-      println(newLine.mkString("\t"))
-
+      //println(newLine.mkString("\t"))
       //  println(lineList)
       //  println(replacementLineList)
     }
