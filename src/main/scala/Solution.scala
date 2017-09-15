@@ -223,7 +223,29 @@ object Solution {
     //val input = Array(Array(1),Array(1))
     //val input = Array(Array(1,1),Array(1,0))
     // println(islandPerimeter(input))
+/*
+    val t1 = new TreeNode(2)
+    t1.left = new TreeNode(0)
+    t1.left.right = new TreeNode(1)
+    t1.right = new TreeNode(3)
+    t1.left.left = new TreeNode(-4)
 
+    val t2 = new TreeNode(5)
+    t2.right = new TreeNode(13)
+    t2.left = new TreeNode(2)
+
+    val t3 = new TreeNode(1)
+    t3.left = new TreeNode(0)
+    t3.left.left = new TreeNode(-2)
+    t3.right = new TreeNode(4)
+    t3.right.left = new TreeNode(3)
+
+    val t4 = new TreeNode(4)
+    t4.left = new TreeNode(2)
+    t4.left.left = new TreeNode(-3)
+    t4.left.left.right = new TreeNode(-1)
+    t4.left.left.right.right = new TreeNode(0)
+ */
     def averageOfLevels(root: TreeNode): Array[Double] = {
 
       var resultLevel = new ArrayBuffer[Double]()
@@ -604,15 +626,127 @@ object Solution {
 
     def tree2str(t: TreeNode): String = {
 
-      var result = new StringBuilder()
-
+      val result = new StringBuilder()
+      loopTreeNode(t)
       def loopTreeNode(newRoot: TreeNode): Unit ={
-
+        if(newRoot!= null) {
+          var needEmpty = false
+          result.append(newRoot.value)
+          if (newRoot.left != null) {
+            result.append("(")
+            loopTreeNode(newRoot.left)
+            result.append(")")
+          }else{
+            needEmpty = true
+          }
+          if (newRoot.right != null) {
+            if(needEmpty == true){
+              result.append("()")
+            }
+            result.append("(")
+            loopTreeNode(newRoot.right)
+            result.append(")")
+          }
+        }
       }
-      "a"
+      result.toString()
+    }
 
+    def convertBST(root: TreeNode): TreeNode = {
+      var sum = 0
+      find(root)
+      def find(newRoot:TreeNode): Unit={
+        if(newRoot!=null){
+          if(newRoot.right != null){
+            find(newRoot.right)
+          }
+          sum+=newRoot.value
+          newRoot.value = sum
+          if(newRoot.left!=null){
+            find(newRoot.left)
+          }
+        }
+      }
+      root
+    }
+
+    def minMoves(nums: Array[Int]): Int = {
+
+      val temp =  nums
+      var result = false
+      var counter = 0
+      while(!result){
+        var sameNumber = true
+        counter += 1
+        val max = temp.max
+        var haveMax = false
+        for(i <- 0 to temp.length -1) {
+          if(temp(i) == max && !haveMax){
+            haveMax = true
+          }else{
+            temp(i) = temp(i) + 1
+          }
+          if(temp(i) != temp(0)){
+            sameNumber = false
+          }
+          result = sameNumber
+        }
+        temp.foreach(print)
+        println
+      }
+
+      counter
+    }
+
+    def convertToTitle(n: Int): String = {
+
+      var times: Int = n/26
+      var leftOver : Int = n % 26
+      val result = new StringBuilder()
+
+      while(times > 0) {
+        if (leftOver != 0) {
+          result.append((leftOver+64).toChar)
+        } else {
+          times = times - 1
+          result.append('Z')
+        }
+        leftOver = times % 26
+        times = times /26
+      }
+
+      if (leftOver != 0) {
+        result.append((leftOver+64).toChar)
+      } else {
+        times = times - 1
+        result.append('Z')
+      }
+
+      if(times != 0){
+        result.append((times+64).toChar)
+      }
+
+      result.reverse.toString()
+    }
+    def titleToNumber(s: String): Int = {
+
+      var sum: Int = 0
+      var counter = 0
+      for(i <- s.length -1 to 0 by -1){
+        val base = scala.math.pow(26,counter).asInstanceOf[Int]
+        sum += base*(s(i).toInt - 64)
+        counter += 1
+      }
+      sum
+    }
+
+    for(i <-1 to 1000){
+      if(i != titleToNumber(convertToTitle(i)))
+      println(titleToNumber(convertToTitle(i)))
     }
 
 
   }
+
+
 }
