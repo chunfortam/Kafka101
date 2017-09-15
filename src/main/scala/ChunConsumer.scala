@@ -50,6 +50,10 @@ object ChunConsumer {
 
     val ssc = StreamingContext.getOrCreate(checkpointDir, createStreamingContext)
     val hiveContext = new HiveContext(ssc.sparkContext)
+    val test = hiveContext.asInstanceOf[SparkContext]
+    val sqlContext = new SQLContext(ssc.sparkContext)
+    test
+
 
     println("Creating Kafka connection")
     def my_func(x : RDD[Row]) : Unit = {
